@@ -63,17 +63,6 @@ namespace Wino.Calendar.ViewModels
         [RelayCommand]
         private async Task AddNewAccountAsync()
         {
-            if (IsAccountCreationBlocked)
-            {
-                var isPurchaseClicked = await DialogService.ShowConfirmationDialogAsync(Translator.DialogMessage_AccountLimitMessage, Translator.DialogMessage_AccountLimitTitle, Translator.Buttons_Purchase);
-
-                if (!isPurchaseClicked) return;
-
-                await PurchaseUnlimitedAccountAsync();
-
-                return;
-            }
-
             var availableProviders = _providerService.GetAvailableProviders();
 
             var accountCreationDialogResult = await DialogService.ShowAccountProviderSelectionDialogAsync(availableProviders);
