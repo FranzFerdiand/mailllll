@@ -20,25 +20,19 @@ public abstract partial class AccountManagementPageViewModelBase : CoreBaseViewM
     public ObservableCollection<IAccountProviderDetailViewModel> Accounts { get; set; } = [];
 
     public bool IsPurchasePanelVisible => !HasUnlimitedAccountProduct;
-    public bool IsAccountCreationAlmostOnLimit => Accounts != null && Accounts.Count == FREE_ACCOUNT_COUNT - 1;
     public bool HasAccountsDefined => Accounts != null && Accounts.Any();
     public bool CanReorderAccounts => Accounts?.Sum(a => a.HoldingAccountCount) > 1;
 
-    public string UsedAccountsString => string.Format(Translator.WinoUpgradeRemainingAccountsMessage, Accounts.Count, FREE_ACCOUNT_COUNT);
+    public string UsedAccountsString => string.Format(Translator.WinoUpgradeRemainingAccountsMessage, Accounts.Count);
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsPurchasePanelVisible))]
     private bool hasUnlimitedAccountProduct;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(IsAccountCreationAlmostOnLimit))]
     [NotifyPropertyChangedFor(nameof(IsPurchasePanelVisible))]
-    private bool isAccountCreationBlocked;
-
-    [ObservableProperty]
     private IAccountProviderDetailViewModel _startupAccount;
 
-    public int FREE_ACCOUNT_COUNT { get; } = 3;
     protected IDialogServiceBase DialogService { get; }
     protected IWinoServerConnectionManager WinoServerConnectionManager { get; }
     protected INavigationService NavigationService { get; }
@@ -98,11 +92,6 @@ public abstract partial class AccountManagementPageViewModelBase : CoreBaseViewM
         await ExecuteUIThread(async () =>
         {
             HasUnlimitedAccountProduct = await StoreManagementService.HasProductAsync(StoreProductType.UnlimitedAccounts);
-
-            if (!HasUnlimitedAccountProduct)
-                IsAccountCreationBlocked = Accounts.Count >= FREE_ACCOUNT_COUNT;
-            else
-                IsAccountCreationBlocked = false;
         });
     }
 

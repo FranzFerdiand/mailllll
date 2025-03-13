@@ -77,17 +77,6 @@ public partial class AccountManagementViewModel : AccountManagementPageViewModel
     [RelayCommand]
     private async Task AddNewAccountAsync()
     {
-        if (IsAccountCreationBlocked)
-        {
-            var isPurchaseClicked = await DialogService.ShowConfirmationDialogAsync(Translator.DialogMessage_AccountLimitMessage, Translator.DialogMessage_AccountLimitTitle, Translator.Buttons_Purchase);
-
-            if (!isPurchaseClicked) return;
-
-            await PurchaseUnlimitedAccountAsync();
-
-            return;
-        }
-
         MailAccount createdAccount = null;
         IAccountCreationDialog creationDialog = null;
 
