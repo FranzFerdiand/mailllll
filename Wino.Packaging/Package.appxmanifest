@@ -10,7 +10,7 @@
 
 	<Identity
 	  Name="58272BurakKSE.WinoMailPreview"
-	  Publisher="CN=51FBDAF3-E212-4149-89A2-A2636B3BC911"
+	  Publisher="CN=YourLocalPublisher"
 	  Version="1.9.50.0" />
 	
 	<Extensions>
